@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>HTML Tables</title>
+        <style>
+            *,
+            *::after,
+            *::before {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            body {
+                background-color: #f1f2f6;
+                font-family: Arial, Helvetica, sans-serif;
+            thead {
+                background-color: #ff8600;
+            }
+            tbody {
+                background-color: #dee2e6;
+            }
+            th {
+                font-weight: 500;
+                font-size: 18px;
+            }
+            table {
+                max-width: 728px;
+                margin: 20px auto;
+                border-collapse: collapse;
+                width: 100%;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            th,
+            td {
+                border: none;
+                padding: 10px 20px;
+                text-align: left;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <thead>
+                <tr>
+                    <th>S.N.</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Phone No.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>423</td>
+                    <td>John Doe</td>
+                    <td>Kalimati, Kathmandu</td>
+                    <td>+977 123-456-789</td>
+                </tr>
+                <tr>
+                    <td>234</td>
+                    <td>Jack Ma</td>
+                    <td>New Road, Kathmandu</td>
+                    <td>+977 132-456-789</td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
