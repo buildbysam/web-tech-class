@@ -20,6 +20,10 @@ _Screenshot of the register form task._
 ![Sum and Swap](screenshots/sum-and-swap-result.png)
 _Screenshot of the sum and swap task._
 
-- [Task 6: PHP Bubble Sort](./bubble-sort)
+- [Task 6: PHP Grid Layout](./php-grid-layout)
+![Sum and Swap](screenshots/php-grid-layout.png)
+_Screenshot of the php grid layout task._
+
+- [Task 7: PHP Bubble Sort](./bubble-sort)
 ![Sum and Swap](screenshots/bubble-sort.png)
 _Screenshot of the bubble sort task._
