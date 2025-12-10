@@ -44,6 +44,7 @@ if ($action === "start") {
 }
 
 $displayBars = $steps[$currentStep] ?? $bars;
+$finished = $finished || $currentStep >= count($steps) - 1;
 ?>
 
 <!DOCTYPE html>
@@ -79,14 +80,16 @@ $displayBars = $steps[$currentStep] ?? $bars;
                     ? "disabled"
                     : "" ?>>Previous</button>
                 <button name="action" value="next" <?= empty($steps) ||
-                $currentStep >= count($steps) - 1
+                $finished
                     ? "disabled"
                     : "" ?>>Next</button>
                 <button class="red" name="action" value="finish" <?= empty(
                     $steps
-                )
+                ) || $finished
                     ? "disabled"
-                    : "" ?>>Finish</button>
+                    : "" ?>>
+                    <?= $finished ? "Finished" : "Finish" ?>
+                    </button>
             </div>
 
         </form>
