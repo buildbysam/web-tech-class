@@ -1,3 +1,7 @@
+---
+title: Sum and Swap 
+---
+
 # Sum and Swap
 
 Calculates two numbers and displays both original and swapped results.

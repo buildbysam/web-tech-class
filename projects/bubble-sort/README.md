@@ -1,3 +1,7 @@
+---
+title: Bubble Sort
+---
+
 # Bubble Sort
 
 Bubble sort visualizer with step controls.
