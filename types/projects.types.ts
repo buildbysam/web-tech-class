@@ -1,3 +1,8 @@
+export interface Screenshot {
+  src: string;
+  alt: string;
+}
+
 export interface IProjectMetadata {
   title: string;
   description: string;
@@ -5,15 +10,14 @@ export interface IProjectMetadata {
 
 export interface IProjectAttributes extends IProjectMetadata {
   slug: string;
-  date_created: string;
+  date_created: Date;
   tech_stack: string[];
-  order: number;
 }
 
 export interface IProject extends IProjectAttributes {
   github_url?: string;
   live_demo_url?: string;
-  screenshots?: string[];
+  screenshots: Screenshot[];
   objective?: string;
   key_features?: string[];
   concepts_earned?: string[];
@@ -21,5 +25,5 @@ export interface IProject extends IProjectAttributes {
 }
 
 export interface IProjectListItem extends IProjectAttributes {
-  thumbnail: string;
+  thumbnail: Screenshot;
 }

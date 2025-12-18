@@ -1,9 +1,9 @@
+import { IProject, IProjectListItem, IProjectMetadata, Screenshot } from "@/types/projects.types";
+import matter from "gray-matter";
+import { notFound } from "next/navigation";
 import fs from "node:fs";
 import path from "node:path";
-import matter from "gray-matter";
-import { IProject, IProjectListItem, IProjectMetadata } from "@/types/projects.types";
 import { slugify } from "./utils";
-import { notFound } from "next/navigation";
 
 const PROJECTS_ROOT = path.join(process.cwd(), "projects");
 let PROJECT_REGISTRY = new Map<string, string>();
@@ -53,6 +53,26 @@ export function getListFromSection(content: string, sectionName: string): string
     .split("\n")
     .map((line) => line.replace(/^[-*]\s+/, "").trim())
     .filter((line) => line.length > 0);
+}
+
+export function getProjectScreenshots(content: string, dirPath: string): Screenshot[] {
+  const mdImageRegex = /!\[(.*?)\]\((.*?\.(?:png|jpg|jpeg|webp|gif|svg))\)/gi;
+  const screenshots: Screenshot[] = [];
+  let match;
+  while ((match = mdImageRegex.exec(content)) !== null) {
+    const [_, alt, src] = match;
+    const isScreenshot =
+      alt.toLowerCase().includes("screenshot") ||
+      src.toLowerCase().includes("screenshot") ||
+      alt.toLowerCase().includes("preview");
+    if (isScreenshot) {
+      screenshots.push({
+        alt: alt || "Project screenshot",
+        src: path.join(dirPath, src),
+      });
+    }
+  }
+  return screenshots;
 }
 
 function buildProjectRegistry(): typeof PROJECT_REGISTRY {
@@ -128,7 +148,31 @@ export function getAllProjects(): IProjectListItem[] {
   if (!PROJECT_REGISTRY.size) {
     PROJECT_REGISTRY = buildProjectRegistry();
   }
-  console.log(PROJECT_REGISTRY);
+  const projectsList: IProjectListItem[] = [];
+  PROJECT_REGISTRY.forEach((projectDirPath) => {
+    const files = fs.readdirSync(projectDirPath);
+    if (!files.includes("README.md")) {
+      return;
+    }
 
-  return [];
+    const filePath = path.join(projectDirPath, "README.md");
+    const fileContents = fs.readFileSync(filePath, "utf-8");
+    const { data: rawMetadata, content: rawContent } = matter(fileContents);
+
+    const projectTitle = rawMetadata.title ?? getProjectTitle(rawContent);
+    if (!projectTitle) {
+      return;
+    }
+
+    projectsList.push({
+      title: projectTitle,
+      slug: slugify(projectTitle),
+      description: getProjectDescription(rawContent),
+      thumbnail: getProjectScreenshots(rawContent, projectDirPath)[0],
+      tech_stack: parseMarkdownList(rawMetadata.tech_stack),
+      date_created: new Date(rawMetadata.date_created ?? 0),
+    });
+  });
+
+  return projectsList;
 }
