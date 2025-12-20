@@ -19,7 +19,7 @@ export default function Navbar() {
   const [showMobileNavbar, setShowMobileNavbar] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/30 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-sm">
       <div className="border-b border-border">
         <div className="flex-between w-full max-w-7xl mx-auto pr-2 pl-4 md:px-4 py-2 lg:py-3">
           <Link href={"/"} className="flex-center gap-1.5 lg:gap-2.5">

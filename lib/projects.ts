@@ -1,4 +1,4 @@
-import { IProject, IProjectListItem, IProjectMetadata, Screenshot } from "@/types/projects.types";
+import { IProject, IProjectListItem, IProjectMetadata, IScreenshot, Screenshot } from "@/types/projects.types";
 import matter from "gray-matter";
 import { notFound } from "next/navigation";
 import fs from "node:fs";
@@ -55,7 +55,7 @@ export function getListFromSection(content: string, sectionName: string): string
     .filter((line) => line.length > 0);
 }
 
-export function getProjectScreenshots(content: string, dirPath: string): Screenshot[] {
+export function getProjectScreenshots(content: string, dirPath: string): IScreenshot[] {
   const mdImageRegex = /!\[(.*?)\]\((.*?\.(?:png|jpg|jpeg|webp|gif|svg))\)/gi;
   const screenshots: Screenshot[] = [];
   let match;
@@ -138,11 +138,11 @@ export function getProjectMetadata(slug: string): IProjectMetadata {
   return { title, description };
 }
 
-export function getProjectContent(slug: string): IProject {
+export function getProjectContent(): IProject {
   return {};
 }
 
-export function getProjectFiles(slug: string) {}
+export function getProjectFiles() {}
 
 export function getAllProjects(): IProjectListItem[] {
   if (!PROJECT_REGISTRY.size) {
@@ -163,12 +163,12 @@ export function getAllProjects(): IProjectListItem[] {
     if (!projectTitle) {
       return;
     }
-
+    const imagePath = path.join("/projects", projectDirPath.replace(PROJECTS_ROOT, ""));
     projectsList.push({
       title: projectTitle,
       slug: slugify(projectTitle),
       description: getProjectDescription(rawContent),
-      thumbnail: getProjectScreenshots(rawContent, projectDirPath)[0],
+      thumbnail: getProjectScreenshots(rawContent, imagePath)[0],
       tech_stack: parseMarkdownList(rawMetadata.tech_stack),
       date_created: new Date(rawMetadata.date_created ?? 0),
     });

@@ -1,4 +1,4 @@
-export interface Screenshot {
+export interface IScreenshot {
   src: string;
   alt: string;
 }
@@ -17,7 +17,7 @@ export interface IProjectAttributes extends IProjectMetadata {
 export interface IProject extends IProjectAttributes {
   github_url?: string;
   live_demo_url?: string;
-  screenshots: Screenshot[];
+  screenshots: IScreenshot[];
   objective?: string;
   key_features?: string[];
   concepts_learned?: string[];
@@ -25,5 +25,5 @@ export interface IProject extends IProjectAttributes {
 }
 
 export interface IProjectListItem extends IProjectAttributes {
-  thumbnail: Screenshot;
+  thumbnail: IScreenshot;
 }

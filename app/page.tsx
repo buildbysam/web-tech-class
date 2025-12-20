@@ -1,16 +1,19 @@
 import Icon from "@/components/icon";
 import { ubuntu } from "@/lib/fonts";
 import { getAllProjects } from "@/lib/projects";
-import { CodeXml, icons } from "lucide-react";
+import { formatDate } from "@/lib/utils";
+import { IScreenshot } from "@/types/projects.types";
+import { ArrowRight, Calendar, CodeXml, icons } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
-const hero_section_card_list = [
+const stats_card_list = [
   { value: "4", title: "projects" },
   { value: "5+", title: "technologies" },
   { value: "4", title: "semester" },
 ];
 
-const features_section_card_list = [
+const features_card_list = [
   { icon: "CodeXml", title: "Clean Code", description: "Well-structured and documented code following best practices" },
   { icon: "Layers", title: "Modern Stack", description: "Built with current industry-standard technologies" },
   {
@@ -20,7 +23,17 @@ const features_section_card_list = [
   },
 ];
 
-export default function HomePage() {
+async function ProjectThumbnail({ src, alt }: IScreenshot) {
+  const pathSnippet = src.replace("/projects/", "").replace(".png", "");
+  try {
+    const { default: imageAsset } = await import(`../projects/${pathSnippet}.png`);
+    return <Image src={imageAsset} alt={alt} />;
+  } catch (err) {
+    <p>Image not found</p>;
+  }
+}
+
+export default async function HomePage() {
   const projects = getAllProjects();
 
   return (
@@ -38,7 +51,7 @@ export default function HomePage() {
           </p>
         </div>
         <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-8 max-w-2xl mx-auto mt-12">
-          {hero_section_card_list.map((item, idx) => (
+          {stats_card_list.map((item, idx) => (
             <div key={idx} className="card p-2 md:p-4 text-center">
               <p className="text-2xl md:text-3xl font-bold text-foreground">{item.value}</p>
               <p className="text-sm text-muted-foreground mt-1 capitalize">{item.title}</p>
@@ -49,7 +62,7 @@ export default function HomePage() {
 
       <section className="bg-muted/30">
         <div className="section-container grid sm:grid-cols-3 gap-4 lg:gap-6">
-          {features_section_card_list.map((item, idx) => (
+          {features_card_list.map((item, idx) => (
             <div
               key={idx}
               className="card max-w-sm mx-auto w-full sm:max-w-full rounded-xl p-4 gap-2 lg:gap-4 flex items-start flex-col lg:flex-row"
@@ -67,15 +80,35 @@ export default function HomePage() {
       </section>
 
       <section className="section-container">
-        <div className="flex-between mb-5">
+        <div className="flex-between mb-10">
           <h2 className={`${ubuntu.className} section-title`}>All Projects</h2>
           <p className="text-muted-foreground text-sm md:text-base">4 Projects</p>
         </div>
         <div>
-          {projects.map((project, idx) => (
-            <div key={project.slug}>
-              <Image src={project.thumbnail.src} alt={project.thumbnail.alt} width={100} height={100} />
-              {project.title}
+          {projects.map(async (project, idx) => (
+            <div key={project.slug} className="group card">
+              <ProjectThumbnail src={project.thumbnail.src} alt={project.thumbnail.alt} />
+              <div className="p-5">
+                <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
+                  <span className="text-primary">Task {idx + 1}</span>
+                  <span>&bull;</span>
+                  <span className="flex items-center gap-1">
+                    <Calendar className="size-3" />
+                    {formatDate(project.date_created)}
+                  </span>
+                </div>
+                <h3 className={`${ubuntu.className} font-semibold text-lg mb-2 group-hover:text-primary`}>
+                  {project.title}
+                </h3>
+                <p className="text-muted-foreground text-sm line-clamp-2 mb-4">{project.description}</p>
+
+                {/* Tech badge */}
+                <div></div>
+
+                <Link href={"/"} className="flex items-center text-sm font-medium text-primary">
+                  View Details <ArrowRight className="ml-1 size-4 group-hover:translate-x-1" />
+                </Link>
+              </div>
             </div>
           ))}
         </div>
