@@ -1,4 +1,11 @@
-import { IProject, IProjectListItem, IProjectMetadata, IScreenshot } from "@/types/projects.types";
+import {
+  IProject,
+  IProjectListItem,
+  IProjectMetadata,
+  IRegistryItem,
+  IScreenshot,
+  TParsedData,
+} from "@/types/projects.types";
 import matter from "gray-matter";
 import { notFound } from "next/navigation";
 import fs from "node:fs";
@@ -6,7 +13,7 @@ import path from "node:path";
 import { slugify } from "./utils";
 
 const PROJECTS_ROOT = path.join(process.cwd(), "projects");
-let PROJECT_REGISTRY = new Map<string, { path: string; index: number }>();
+let PROJECT_REGISTRY = new Map<string, IRegistryItem>();
 const projectsDir = fs
   .readdirSync(PROJECTS_ROOT, { withFileTypes: true })
   .filter((dirent) => dirent.isDirectory())
@@ -115,7 +122,6 @@ function buildProjectRegistry(): typeof PROJECT_REGISTRY {
     if (!files.includes("README.md")) {
       continue;
     }
-
     const filePath = path.join(dirPath, "README.md");
     const fileContents = fs.readFileSync(filePath, "utf-8");
     const { data: rawMetadata, content: rawContent } = matter(fileContents);
@@ -124,7 +130,6 @@ function buildProjectRegistry(): typeof PROJECT_REGISTRY {
     if (!projectTitle) {
       continue;
     }
-
     projectData.push({
       path: dirPath,
       slug: slugify(projectTitle),
@@ -132,7 +137,6 @@ function buildProjectRegistry(): typeof PROJECT_REGISTRY {
       date_created: rawMetadata.date_created ?? 0,
     });
   }
-
   projectData
     .sort((a, b) => {
       if (a.order !== b.order) {
@@ -150,131 +154,120 @@ function buildProjectRegistry(): typeof PROJECT_REGISTRY {
   return registry;
 }
 
-export function getAllProjectSlugs(): string[] {
+function ensureRegistry() {
   if (!PROJECT_REGISTRY.size) {
     PROJECT_REGISTRY = buildProjectRegistry();
   }
+}
+
+export function getAllProjectSlugs(): string[] {
+  ensureRegistry();
   return Array.from(PROJECT_REGISTRY.keys());
 }
 
-export function getProjectMetadata(slug: string): IProjectMetadata {
-  if (!PROJECT_REGISTRY.size) {
-    PROJECT_REGISTRY = buildProjectRegistry();
+function parseProject(project: IRegistryItem, fullDetail: true): TParsedData<IProject> | null;
+function parseProject(project: IRegistryItem, fullDetail: false): TParsedData<IProjectListItem> | null;
+function parseProject(
+  project: IRegistryItem,
+  fullDetail: boolean = false
+): TParsedData<IProjectListItem | IProject> | null {
+  const filePath = path.join(project.path, "README.md");
+  if (!fs.existsSync(filePath)) {
+    return null;
   }
-  const project = PROJECT_REGISTRY.get(slug);
+  const fileContents = fs.readFileSync(filePath, "utf-8");
+  const { data, content } = matter(fileContents);
+  const title = data.title ?? getProjectTitle(content);
+  if (!title) {
+    return null;
+  }
+  const imageBase = path.join("/projects", project.path.replace(PROJECTS_ROOT, ""));
+  const base = {
+    index: project.index,
+    title,
+    slug: slugify(title),
+    description: getProjectDescription(content),
+    thumbnail: getProjectScreenshots(content, imageBase)[0],
+    tech_stack: parseMarkdownList(data.tech_stack),
+    date_created: new Date(data.date_created ?? 0),
+    isFeatured: !!data.featured,
+  };
+  if (!fullDetail) {
+    return base;
+  }
+  return {
+    ...base,
+    screenshots: getProjectScreenshots(content, imageBase),
+    github_url: data.github_url,
+    live_demo_url: data.live_demo_url,
+    objective: getMarkdownSection(content, "Objectives"),
+    key_features: getMarkdownList(content, "Key Features") || [],
+    concepts_learned: getMarkdownList(content, "Concepts Learned"),
+    tools_technologies: getMarkdownList(content, "Tools and Technologies Used"),
+  };
+}
+
+export function getProjectMetadata(slug: string): IProjectMetadata {
+  ensureRegistry();
+  const projectEntry = PROJECT_REGISTRY.get(slug);
+  const project = projectEntry ? parseProject(projectEntry, false) : null;
   if (!project) {
     return notFound();
   }
-  const filePath = path.join(project.path, "README.md");
-  const fileContents = fs.readFileSync(filePath, "utf-8");
-  const { data: rawMetadata, content: rawContent } = matter(fileContents);
-  const title: string = rawMetadata.title ?? getProjectTitle(rawContent);
-  const description = getProjectDescription(rawContent);
-  return { title, description };
+  return {
+    title: project.title,
+    description: project.description,
+  };
 }
 
 export function getSingleProject(slug: string): IProject {
-  if (!PROJECT_REGISTRY.size) {
-    PROJECT_REGISTRY = buildProjectRegistry();
-  }
+  ensureRegistry();
   const project = PROJECT_REGISTRY.get(slug);
-  if (!project) {
+  const data = project ? parseProject(project, true) : null;
+  if (!data) {
     return notFound();
   }
-  const files = fs.readdirSync(project.path);
-  if (!files.includes("README.md")) {
-    return notFound();
-  }
-  const filePath = path.join(project.path, "README.md");
-  const fileContents = fs.readFileSync(filePath, "utf-8");
-  const { data: rawMetadata, content: rawContent } = matter(fileContents);
-  const projectTitle = rawMetadata.title ?? getProjectTitle(rawContent);
-  if (!projectTitle) {
-    return notFound();
-  }
-  const imagePath = path.join("/projects", project.path.replace(PROJECTS_ROOT, ""));
-
-  return {
-    index: project.index,
-    title: projectTitle,
-    slug: slugify(projectTitle),
-    description: getProjectDescription(rawContent),
-    screenshots: getProjectScreenshots(rawContent, imagePath),
-    tech_stack: parseMarkdownList(rawMetadata.tech_stack),
-    date_created: new Date(rawMetadata.date_created ?? 0),
-    github_url: rawMetadata.github_url,
-    live_demo_url: rawMetadata.live_demo_url,
-    objective: getMarkdownSection(rawContent, "Objectives"),
-    key_features: getMarkdownList(rawContent, "Key Features")!,
-    concepts_learned: getMarkdownList(rawContent, "Concepts Learned"),
-    tools_technologies: getMarkdownList(rawContent, "Tools and Technologies Used"),
-  };
+  return data as IProject;
 }
 
 // export function getProjectFiles() {}
 
 export function getProjectsCount(): number {
-  if (!PROJECT_REGISTRY.size) {
-    PROJECT_REGISTRY = buildProjectRegistry();
-  }
+  ensureRegistry();
   return PROJECT_REGISTRY.size;
 }
 
 export function getTechnologiesUsed(): string[] {
-  if (!PROJECT_REGISTRY.size) {
-    PROJECT_REGISTRY = buildProjectRegistry();
-  }
+  const allProjects = getAllProjects();
   const techUsedList = new Set<string>();
-  PROJECT_REGISTRY.forEach((project) => {
-    const files = fs.readdirSync(project.path);
-    if (!files.includes("README.md")) {
-      return;
-    }
-    const filePath = path.join(project.path, "README.md");
-    const fileContents = fs.readFileSync(filePath, "utf-8");
-    const { data: rawMetadata, content: rawContent } = matter(fileContents);
-    const projectTitle = rawMetadata.title ?? getProjectTitle(rawContent);
-    if (!projectTitle) {
-      return;
-    }
-    parseMarkdownList(rawMetadata.tech_stack).forEach((tech) => techUsedList.add(tech));
+  allProjects.forEach((project) => {
+    project.tech_stack.forEach((tech) => techUsedList.add(tech));
   });
-  return Array.from(techUsedList);
+  return Array.from(techUsedList).sort();
 }
 
 export function getTechnologiesUsedCount(): number {
   return getTechnologiesUsed().length;
 }
 
-export function getAllProjects(): IProjectListItem[] {
-  if (!PROJECT_REGISTRY.size) {
-    PROJECT_REGISTRY = buildProjectRegistry();
-  }
-  const projectsList: IProjectListItem[] = [];
-
-  PROJECT_REGISTRY.forEach((project) => {
-    const files = fs.readdirSync(project.path);
-    if (!files.includes("README.md")) {
-      return;
+function getAllProjects(): IProjectListItem[] {
+  ensureRegistry();
+  const list: IProjectListItem[] = [];
+  PROJECT_REGISTRY.forEach((p) => {
+    const data = parseProject(p, false);
+    if (data) {
+      list.push(data);
     }
-    const filePath = path.join(project.path, "README.md");
-    const fileContents = fs.readFileSync(filePath, "utf-8");
-    const { data: rawMetadata, content: rawContent } = matter(fileContents);
-    const projectTitle = rawMetadata.title ?? getProjectTitle(rawContent);
-    if (!projectTitle) {
-      return;
-    }
-    const imagePath = path.join("/projects", project.path.replace(PROJECTS_ROOT, ""));
-    projectsList.push({
-      index: project.index,
-      title: projectTitle,
-      slug: slugify(projectTitle),
-      description: getProjectDescription(rawContent),
-      thumbnail: getProjectScreenshots(rawContent, imagePath)[0],
-      tech_stack: parseMarkdownList(rawMetadata.tech_stack),
-      date_created: new Date(rawMetadata.date_created ?? 0),
-    });
   });
+  return list;
+}
 
-  return projectsList;
+export function getFeaturedProject(): IProjectListItem[] {
+  return getAllProjects()
+    .filter((p) => (p as TParsedData<IProjectListItem>).isFeatured)
+    .slice(0, 6);
+}
+
+export function getProjects(tech?: string, sort?: "newest" | "oldest"): IProjectListItem[] {
+  return getAllProjects();
 }

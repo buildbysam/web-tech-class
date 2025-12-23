@@ -1,3 +1,12 @@
+export interface IRegistryItem {
+  path: string;
+  index: number;
+}
+
+export type TParsedData<T> = T & {
+  isFeatured: boolean;
+};
+
 export interface IScreenshot {
   src: string;
   alt: string;

@@ -1,13 +1,13 @@
+import ProjectCardGrid from "@/components/project-card-grid";
 import { ubuntu } from "@/lib/fonts";
-import { getAllProjects, getTechnologiesUsed } from "@/lib/projects";
+import { getProjects, getTechnologiesUsed } from "@/lib/projects";
 import { ChevronRight, House } from "lucide-react";
 import Link from "next/link";
 import FilterProjects from "./_components/filter-projects";
-import ProjectCardGrid from "@/components/project-card-grid";
 
 export default function ProjectsPage() {
-  const projects = getAllProjects();
-  const technologies = getTechnologiesUsed();
+  const projects = getProjects();
+  const allTech = getTechnologiesUsed();
 
   return (
     <main className="section-container">
@@ -25,7 +25,7 @@ export default function ProjectsPage() {
           documentation, and live demos.
         </p>
       </div>
-      <FilterProjects technologies={technologies} />
+      <FilterProjects technologies={allTech} />
       <ProjectCardGrid projects={projects} />
     </main>
   );

@@ -1,11 +1,11 @@
 import Icon from "@/components/icon";
 import ProjectCardGrid from "@/components/project-card-grid";
 import { ubuntu } from "@/lib/fonts";
-import { getAllProjects, getProjectsCount, getTechnologiesUsedCount } from "@/lib/projects";
+import { getFeaturedProject, getProjectsCount, getTechnologiesUsedCount } from "@/lib/projects";
 import { CodeXml, icons } from "lucide-react";
 
 export default async function HomePage() {
-  const projects = getAllProjects().splice(0, 6);
+  const projects = getFeaturedProject();
   const totalProjectsCount = getProjectsCount();
 
   const stats_card_list = [

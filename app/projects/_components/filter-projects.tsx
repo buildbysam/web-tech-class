@@ -4,10 +4,10 @@ import Button from "@/components/button";
 import Dropdown from "@/components/dropdown";
 
 interface Props {
-  technologies: string[];
+  allTech: string[];
 }
 
-export default function FilterProjects({ technologies }: Props) {
+export default function FilterProjects({ allTech }: Props) {
   return (
     <>
       <div className="mb-8 px-4 py-3 card flex flex-wrap items-center gap-3">
@@ -16,7 +16,7 @@ export default function FilterProjects({ technologies }: Props) {
           <Button variant="outline" className="rounded-md text-sm py-1! px-2! bg-primary! text-primary-foreground!">
             All
           </Button>
-          {technologies.map((tech) => (
+          {allTech.map((tech) => (
             <Button key={tech} variant="outline" className="rounded-md text-sm py-1! px-2!">
               {tech}
             </Button>

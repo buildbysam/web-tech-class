@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Button from "./button";
 import ThemeToggleBtn from "./theme-toggle-btn";
+import { ubuntu } from "@/lib/fonts";
 
 const nav_links = [
   { title: "Home", href: "/" },
@@ -24,7 +25,7 @@ export default function Navbar() {
         <div className="flex-between w-full max-w-7xl mx-auto pr-2 pl-4 md:px-4 py-2 lg:py-3">
           <Link href={"/"} className="flex-center gap-1.5 lg:gap-2.5">
             <CodeXml className="text-primary size-6" />
-            <p className="text-foreground font-medium text-base lg:text-xl">Web Tech Projects</p>
+            <p className={`${ubuntu.className} text-foreground font-medium text-base lg:text-xl`}>Web Tech Projects</p>
           </Link>
           <div className="flex-between md:gap-4 lg:gap-6">
             <ul className="hidden md:flex justify-between items-center gap-3.5 lg:gap-5">
