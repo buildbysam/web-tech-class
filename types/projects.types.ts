@@ -3,6 +3,11 @@ export interface IRegistryItem {
   index: number;
 }
 
+export enum SortOptions {
+  newest = "date-desc",
+  oldest = "date-asc",
+}
+
 export type TParsedData<T> = T & {
   isFeatured: boolean;
 };

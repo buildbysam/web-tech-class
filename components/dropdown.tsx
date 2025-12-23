@@ -4,7 +4,7 @@ import { Check, ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 interface IDropdownItem {
-  title: string;
+  label: string;
   value: string;
 }
 
@@ -26,7 +26,7 @@ export default function Dropdown({ dropdown_items, selected_item, handleChange }
         onClick={toggleDropdown}
       >
         <span className="flex-center gap-4">
-          {selectedItem.title}
+          {selectedItem.label}
           <ChevronDown className="size-4" />
         </span>
       </button>
@@ -46,7 +46,7 @@ export default function Dropdown({ dropdown_items, selected_item, handleChange }
                   handleChange(item.value);
                 }}
               >
-                {item.title}
+                {item.label}
                 {item.value === selectedItem.value ? <Check className="size-3.5" /> : null}
               </button>
             );

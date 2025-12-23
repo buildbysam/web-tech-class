@@ -4,6 +4,7 @@ import {
   IProjectMetadata,
   IRegistryItem,
   IScreenshot,
+  SortOptions,
   TParsedData,
 } from "@/types/projects.types";
 import matter from "gray-matter";
@@ -268,6 +269,6 @@ export function getFeaturedProject(): IProjectListItem[] {
     .slice(0, 6);
 }
 
-export function getProjects(tech?: string, sort?: "newest" | "oldest"): IProjectListItem[] {
+export function getProjects(tech?: string, sort?: SortOptions): IProjectListItem[] {
   return getAllProjects();
 }

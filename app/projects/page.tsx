@@ -5,7 +5,12 @@ import { ChevronRight, House } from "lucide-react";
 import Link from "next/link";
 import FilterProjects from "./_components/filter-projects";
 
-export default function ProjectsPage() {
+export default async function ProjectsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tech?: string; sort?: string }>;
+}) {
+  const filters = await searchParams;
   const projects = getProjects();
   const allTech = getTechnologiesUsed();
 
@@ -25,7 +30,7 @@ export default function ProjectsPage() {
           documentation, and live demos.
         </p>
       </div>
-      <FilterProjects technologies={allTech} />
+      <FilterProjects activeTech={filters.tech} activeSort={filters.sort} allTech={["All", ...allTech]} />
       <ProjectCardGrid projects={projects} />
     </main>
   );
