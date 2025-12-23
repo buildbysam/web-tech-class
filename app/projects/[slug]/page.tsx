@@ -4,7 +4,7 @@ import ProjectThumbnail from "@/components/project-thumbnail";
 import TechBadge from "@/components/tech-badge";
 import { ubuntu } from "@/lib/fonts";
 import { getAllProjectSlugs, getProjectMetadata, getSingleProject } from "@/lib/projects";
-import { formatDate } from "@/lib/utils";
+import { capitalize, formatDate } from "@/lib/utils";
 import { ArrowLeft, Dot, ExternalLink, Github } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -46,7 +46,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             <span>&bull;</span>
             <span>{formatDate(project.date_created)}</span>
           </div>
-          <div className="space-y-4 max-w-3xl mb-6">
+          <div className="space-y-3 max-w-3xl mb-6">
             <h1 className={`${ubuntu.className} page-title`}>{project.title}</h1>
             <p className="section-description">{project.description}</p>
           </div>
@@ -87,8 +87,8 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
               >
                 <ProjectThumbnail src={screenshot.src} alt={screenshot.alt} />
                 <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="absolute bottom-2 w-full px-5 text-center font-medium text-sm text-white capitalize">
-                    {screenshot.alt}
+                  <p className="absolute bottom-2 w-full px-5 text-center font-medium text-sm text-white">
+                    {capitalize(screenshot.alt)}
                   </p>
                 </div>
               </div>
@@ -100,40 +100,51 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       <section className="bg-muted/30 border-b border-border">
         <div className="section-container grid md:grid-cols-2 gap-5 lg:gap-7">
           <div className="inline-grid gap-5 lg:gap-y-8">
-            <InfoSectionCard icon="Target" title="Objectives">
-              <p className="text-sm text-muted-foreground">{project.objective}</p>
-            </InfoSectionCard>
-            <InfoSectionCard icon="CircleCheck" title="Key Features">
-              <ul className="space-y-2">
-                {project.key_features.map((feature, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-muted-foreground list-none">
-                    <Dot className="size-4 mt-0.5 text-primary shrink-0" />
-                    <span className="text-sm">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </InfoSectionCard>
+            {project.objective ? (
+              <InfoSectionCard icon="Target" title="Objectives">
+                <p className="text-sm text-muted-foreground">{project.objective}</p>
+              </InfoSectionCard>
+            ) : null}
+
+            {project.key_features && Boolean(project.key_features.length) ? (
+              <InfoSectionCard icon="CircleCheck" title="Key Features">
+                <ul className="space-y-2">
+                  {project.key_features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-muted-foreground list-none">
+                      <Dot className="size-5 mt-0.5 text-primary shrink-0" />
+                      <span className="text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </InfoSectionCard>
+            ) : null}
           </div>
+
           <div className="inline-grid gap-5 lg:gap-y-8">
-            <InfoSectionCard icon="Lightbulb" title="Concepts Learned">
-              <ul className="space-y-2">
-                {project.concepts_learned.map((concept, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-muted-foreground list-none">
-                    <Dot className="size-4 mt-0.5 text-primary shrink-0" />
-                    <span className="text-sm">{concept}</span>
-                  </li>
-                ))}
-              </ul>
-            </InfoSectionCard>
-            <InfoSectionCard icon="Wrench" title="Tools & Technologies">
-              <div className="flex flex-wrap gap-x-2 gap-y-2.5">
-                {project.tools_technologies.map((tool) => (
-                  <span key={tool} className="py-1 px-2.5 rounded-md text-sm bg-badge text-badge-foreground">
-                    {tool}
-                  </span>
-                ))}
-              </div>
-            </InfoSectionCard>
+            {project.concepts_learned && Boolean(project.concepts_learned.length) ? (
+              <InfoSectionCard icon="Lightbulb" title="Concepts Learned">
+                <ul className="space-y-2">
+                  {project.concepts_learned.map((concept, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-muted-foreground list-none">
+                      <Dot className="size-5 mt-0.5 text-primary shrink-0" />
+                      <span className="text-sm">{concept}</span>
+                    </li>
+                  ))}
+                </ul>
+              </InfoSectionCard>
+            ) : null}
+
+            {project.tools_technologies && Boolean(project.tools_technologies.length) ? (
+              <InfoSectionCard icon="Wrench" title="Tools & Technologies">
+                <div className="flex flex-wrap gap-x-2 gap-y-2.5">
+                  {project.tools_technologies.map((tool) => (
+                    <span key={tool} className="py-1 px-2.5 rounded-md text-sm bg-badge text-badge-foreground">
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </InfoSectionCard>
+            ) : null}
           </div>
         </div>
       </section>

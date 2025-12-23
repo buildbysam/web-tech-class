@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function useCopyToClipboard() {
   const [copied, setCopied] = useState(false);
@@ -8,12 +9,12 @@ export default function useCopyToClipboard() {
       .writeText(content)
       .then(() => {
         setCopied(true);
-        // toast.success("Copied to clipboard!");
+        toast.success("Copied to clipboard!");
         setTimeout(() => setCopied(false), 2000);
       })
       .catch((error) => {
         if (error instanceof Error) {
-          // toast.error(error.message);
+          toast.error(error.message);
         }
         console.error(error);
       });
