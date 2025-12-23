@@ -5,9 +5,10 @@ import TechBadge from "@/components/tech-badge";
 import { ubuntu } from "@/lib/fonts";
 import { getAllProjectSlugs, getProjectMetadata, getSingleProject } from "@/lib/projects";
 import { formatDate } from "@/lib/utils";
-import { ArrowLeft, Copy, Dot, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, Dot, ExternalLink, Github } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
+import CopyGithubUrlButton from "../_components/copy-github-url-button";
 
 export function generateStaticParams() {
   const slugs = getAllProjectSlugs();
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export default async function SingleProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const project = getSingleProject(slug);
 
@@ -151,10 +152,7 @@ export default async function SingleProjectPage({ params }: { params: Promise<{ 
               <p className="text-muted-foreground break-all">{project.github_url}</p>
             </div>
             <div className="flex gap-2 shrink-0 items-center">
-              <Button variant="outline" className="flex-center">
-                <Copy className="size-4 mr-2" />
-                Copy
-              </Button>
+              <CopyGithubUrlButton githubURL={project.github_url} />
               <Link target="_blank" href={project.github_url}>
                 <Button variant="primary" className="flex-center">
                   <Github className="size-4 mr-2" />

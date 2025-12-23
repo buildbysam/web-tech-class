@@ -5,7 +5,7 @@ import Link from "next/link";
 import FilterProjects from "./_components/filter-projects";
 import ProjectCardGrid from "@/components/project-card-grid";
 
-export default function AllProjectsPage() {
+export default function ProjectsPage() {
   const projects = getAllProjects();
   const technologies = getTechnologiesUsed();
 

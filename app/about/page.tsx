@@ -47,7 +47,7 @@ const goals_list = [
   "Develop clean, maintainable, and well-documented code",
 ];
 
-export default function About() {
+export default function AboutPage() {
   return (
     <main className="section-container">
       <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
