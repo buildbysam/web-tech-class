@@ -9,7 +9,7 @@ import { ArrowLeft, Dot, ExternalLink, Github } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import CopyContentButton from "../_components/copy-content-button";
-import FileExplorer from "./file-explorer";
+import FileExplorer from "./_components/file-explorer";
 
 export function generateStaticParams() {
   const slugs = getAllProjectSlugs();
@@ -60,7 +60,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           <div className="flex items-center flex-wrap gap-3">
             {project.github_url ? (
               <Link target="_blank" href={project.github_url}>
-                <Button variant="primary" className="flex-center">
+                <Button variant="primary" className="flex-center" title="View on Github">
                   <Github className="size-4 mr-2" />
                   View on Github
                 </Button>
@@ -68,7 +68,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             ) : null}
             {project.live_demo_url ? (
               <Link target="_blank" href={project.live_demo_url}>
-                <Button variant="outline" className="flex-center">
+                <Button variant="outline" className="flex-center" title="Live Demo">
                   <ExternalLink className="size-4 mr-2" />
                   Live Demo
                 </Button>
@@ -170,7 +170,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             <div className="flex gap-2 shrink-0 items-center">
               <CopyContentButton content={project.github_url} />
               <Link target="_blank" href={project.github_url}>
-                <Button variant="primary" className="flex-center">
+                <Button variant="primary" className="flex-center" title="View on Github">
                   <Github className="size-4 mr-2" />
                   View on Github
                 </Button>

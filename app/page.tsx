@@ -1,6 +1,7 @@
 import Icon from "@/components/icon";
 import ProjectCardGrid from "@/components/project-card-grid";
 import { ubuntu } from "@/lib/fonts";
+import { getCommitCount } from "@/lib/git";
 import { getFeaturedProject, getProjectsCount, getTechnologiesUsedCount } from "@/lib/projects";
 import { CodeXml, icons } from "lucide-react";
 
@@ -9,22 +10,29 @@ export default async function HomePage() {
   const totalProjectsCount = getProjectsCount();
 
   const stats_card_list = [
-    { value: totalProjectsCount.toString(), title: "projects" },
-    { value: getTechnologiesUsedCount(), title: "technologies" },
-    { value: "4", title: "semester" },
+    { value: totalProjectsCount, title: "Completed Tasks" },
+    { value: `${getTechnologiesUsedCount()}+`, title: "Tools Used" },
+    { value: getCommitCount(), title: "Total Commits" },
   ];
 
   const features_card_list = [
     {
       icon: "CodeXml",
-      title: "Clean Code",
-      description: "Well-structured and documented code following best practices",
+      title: "Optimized Code",
+      description:
+        "Well-structured and documented source code following best practices to ensure high readability and easier maintenance.",
     },
-    { icon: "Layers", title: "Modern Stack", description: "Built with current industry-standard technologies" },
     {
-      icon: "BookOpen",
-      title: "Learning Focused",
-      description: "Each project teaches specific web development concepts",
+      icon: "Layers",
+      title: "Technical Stack",
+      description:
+        "Built using foundational web technologies including HTML, CSS, and PHP to provide a stable and consistent user experience.",
+    },
+    {
+      icon: "CircleCheck",
+      title: "Skill Validation",
+      description:
+        "Each assignment demonstrates a specific technical milestone, ranging from responsive layouts to functional data handling logic.",
     },
   ];
 
@@ -37,10 +45,10 @@ export default async function HomePage() {
               <CodeXml className="size-5" />
               <p className={`${ubuntu.className} capitalize`}>web technology class</p>
             </div>
-            <h1 className={`${ubuntu.className} page-title`}>Project Showcase</h1>
+            <h1 className={`${ubuntu.className} page-title`}>Class Project Showcase</h1>
             <p className="section-description max-w-4xl mx-auto">
-              A curated collection of web development projects completed throughout the Web Technology course. Each
-              project demonstrates practical skills in modern web technologies.
+              A collection of projects I built during my Web Technology class. Each project shows what I learned through
+              practice and assignments.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-8 max-w-2xl mx-auto mt-12">

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import ProjectCardGrid from "@/components/project-card-grid";
 import { ubuntu } from "@/lib/fonts";
 import { getProjects, getProjectsCount, getTechnologiesUsed } from "@/lib/projects";
@@ -5,6 +6,12 @@ import { ChevronRight, House } from "lucide-react";
 import Link from "next/link";
 import FilterProjects from "./_components/filter-projects";
 import { SortOptions } from "@/types/projects.types";
+
+export const metadata: Metadata = {
+  title: "Project Archive",
+  description:
+    "A complete directory of web development assignments and technical projects completed during the course.",
+};
 
 export default async function ProjectsPage({
   searchParams,
@@ -26,10 +33,10 @@ export default async function ProjectsPage({
         <span className="text-foreground">Projects</span>
       </nav>
       <div className="space-y-4 max-w-3xl mb-10">
-        <h1 className={`${ubuntu.className} page-title`}>All Projects</h1>
+        <h1 className={`${ubuntu.className} page-title`}>Project Directory</h1>
         <p className="section-description">
-          Browse through all the projects completed during the Web Technology course. Each project includes source code,
-          documentation, and live demos.
+          Browse through all the projects completed during the Web Technology course. Each project includes source code
+          and documentation.
         </p>
       </div>
       <FilterProjects activeTech={filters.tech} activeSort={filters.sort} allTech={["All", ...allTech]} />

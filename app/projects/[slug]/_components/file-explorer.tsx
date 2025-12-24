@@ -7,7 +7,6 @@ import { File, FileCode2 } from "lucide-react";
 import { useState } from "react";
 import CopyContentButton from "../_components/copy-content-button";
 import FileNode from "./file-node";
-import Image from "next/image";
 
 export default function FileExplorer({ treeData }: { treeData: TreeNode[] }) {
   const [selectedFile, setSelectedFile] = useState<(TreeNode & { name: string }) | null>(null);
@@ -16,7 +15,7 @@ export default function FileExplorer({ treeData }: { treeData: TreeNode[] }) {
     <div className="w-full card overflow-hidden">
       <div className="flex flex-col lg:flex-row min-h-125 max-h-210">
         <div className="bg-file-tree w-full lg:w-64 border-b lg:border-b-0 lg:border-r border-border overflow-auto">
-          <div className="px-4 h-11 flex items-center border-b border-border">
+          <div className="px-4 h-12 flex items-center border-b border-border">
             <span className="text-sm font-medium">Files</span>
           </div>
           <div className="py-3 pr-4">
@@ -34,7 +33,7 @@ export default function FileExplorer({ treeData }: { treeData: TreeNode[] }) {
         <div className="flex-1 overflow-hidden">
           {selectedFile ? (
             <div className="h-full flex flex-col">
-              <div className="flex-between px-4 h-11 border-b border-border bg-muted/30">
+              <div className="flex-between px-4 h-12 border-b border-border bg-muted/30">
                 <div className="flex items-center gap-2 overflow-hidden">
                   <File
                     className={cx("size-4", selectedFile.extension ? getTechStyle(selectedFile.extension).text : "")}

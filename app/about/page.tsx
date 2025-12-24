@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Icon from "@/components/icon";
 import InfoSectionCard from "@/components/info-section-card";
 import { ubuntu } from "@/lib/fonts";
@@ -6,46 +7,51 @@ import Link from "next/link";
 
 const key_features_list = [
   {
-    icon: "Target",
+    icon: "FileText",
     title: "Project Documentation",
-    description: "Comprehensive documentation for each project with code exploration and screenshots.",
+    description: "Clear explanations for every assignment, including code snippets and visual previews.",
   },
   {
-    icon: "CodeXml",
+    icon: "Terminal",
     title: "Source Code Viewer",
-    description: "Browse project source files with syntax highlighting and folder navigation.",
+    description: "A simple way to browse and read the actual code files used to build each project.",
   },
   {
-    icon: "Layers",
-    title: "Tech Stack Display",
-    description: "Clear visibility of technologies used in each project assignment.",
+    icon: "Cpu",
+    title: "Technology Breakdown",
+    description: "A clear list of the specific tools and languages used for every task.",
   },
   {
-    icon: "Lightbulb",
-    title: "Learning Progress",
-    description: "Projects ordered by complexity showing skill development over time.",
+    icon: "TrendingUp",
+    title: "Growth Tracking",
+    description: "Projects are organized to show how my skills improved with each new challenge.",
   },
 ];
 
 const skills_list = [
-  "HTML5 & Semantic Markup",
-  "CSS3 & Modern Layouts",
-  "JavaScript ES6+",
-  "React & TypeScript",
+  "HTML & Page Structure",
+  "CSS & Visual Styling",
+  "PHP & Server Logic",
+  "JavaScript Functionality",
+  "Modern Web Layouts",
   "Responsive Design",
   "Version Control (Git)",
-  "REST APIs",
-  "UI/UX Principles",
 ];
 
 const goals_list = [
   "Master fundamental web technologies (HTML, CSS, JavaScript)",
   "Build responsive and accessible user interfaces",
-  "Implement modern React patterns and best practices",
+  "Learn how to organize code so it is clean and easy for others to read.",
   "Understand version control and collaborative workflows",
   "Apply UI/UX principles to create user-friendly designs",
   "Develop clean, maintainable, and well-documented code",
 ];
+
+export const metadata: Metadata = {
+  title: "About This Showcase",
+  description:
+    "An overview of the learning journey, technical skills, and goals achieved during the Web Technology course.",
+};
 
 export default function AboutPage() {
   return (
@@ -61,18 +67,17 @@ export default function AboutPage() {
       <div className="space-y-4 max-w-3xl mb-10">
         <h1 className={`${ubuntu.className} page-title`}>About This Showcase</h1>
         <p className="section-description">
-          This website serves as a comprehensive portfolio of all projects completed during the Web Technology course.
-          It demonstrates practical application of modern web development concepts and best practices.
+          This website is a digital portfolio featuring projects completed during my Web Technology course. It serves as
+          a practical record of my progress in learning how to build and design for the web.
         </p>
       </div>
 
       <div className="space-y-8 mb-8">
         <InfoSectionCard icon="BookOpen" title="Project Overview">
           <p className="text-muted-foreground leading-relaxed">
-            This showcase website is designed as a personal academic project portfolio, combining elements of a
-            portfolio and a simplified GitHub-like code explorer. Each project includes detailed documentation, source
-            code viewing, and visual demonstrations. The projects progress from fundamental HTML/CSS layouts to complex
-            React applications, building a strong foundation in modern web development practices and tools.
+            This showcase acts as a personal gallery for my college assignments. It is designed to let visitors explore
+            my code and view project previews in one place. The collection tracks my journey from basic page layouts to
+            more functional web tools, showing a clear growth in my technical abilities.
           </p>
         </InfoSectionCard>
 

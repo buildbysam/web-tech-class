@@ -30,7 +30,7 @@ export default function CopyContentButton({ content, className = "" }: Props) {
   };
 
   return (
-    <Button onClick={handleClick} variant="outline" className={className}>
+    <Button onClick={handleClick} title="Copy Content" variant="outline" className={className}>
       {copied ? (
         <span className="text-green-500 flex-center">
           <Check className="size-4 mr-2" />
