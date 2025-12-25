@@ -1,7 +1,7 @@
 import Icon from "@/components/icon";
 import ProjectCardGrid from "@/components/project-card-grid";
 import { ubuntu } from "@/lib/fonts";
-import { getCommitCount } from "@/lib/git";
+import { getCommitCount } from "@/lib/github";
 import { getFeaturedProject, getProjectsCount, getTechnologiesUsedCount } from "@/lib/projects";
 import { CodeXml, icons } from "lucide-react";
 
