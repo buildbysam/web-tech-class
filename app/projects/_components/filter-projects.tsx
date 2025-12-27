@@ -39,25 +39,32 @@ export default function FilterProjects({ allTech, activeTech, activeSort }: Prop
 
   return (
     <>
-      <div className="mb-8 px-4 py-3 card flex flex-wrap items-center gap-3">
+      <div className="mb-8 px-4 py-3 card flex flex-col sm:flex-row flex-wrap sm:justify-between sm:items-center gap-3">
         <div className="flex flex-wrap items-center gap-1.5">
           <span className="font-medium text-muted-foreground mr-1">Filter:</span>
-          {allTech.map((tech) => (
-            <Button
-              key={tech}
-              onClick={() => setTechFilter(tech.toLowerCase())}
-              variant="outline"
-              className={cx(
-                "rounded-md text-sm py-1! px-2!",
-                (activeTech || "all") === tech.toLowerCase() ? "bg-primary! text-primary-foreground!" : ""
-              )}
-            >
-              {tech}
-            </Button>
-          ))}
+          {allTech.map((tech) => {
+            const active = (activeTech || "all") === tech.toLowerCase();
+            return (
+              <Button
+                key={tech}
+                onClick={() => {
+                  if (active) return;
+                  setTechFilter(tech.toLowerCase());
+                }}
+                disabled={active}
+                variant="outline"
+                className={cx(
+                  "rounded-md text-sm py-1! px-2! opacity-100!",
+                  active ? "bg-primary! text-primary-foreground! cursor-default!" : ""
+                )}
+              >
+                {tech}
+              </Button>
+            );
+          })}
         </div>
 
-        <div className="flex items-center gap-2 ml-auto">
+        <div className="flex items-center gap-2">
           <span className="font-medium text-muted-foreground mr-1">Sort:</span>
           <Dropdown
             dropdown_items={sortOptions}

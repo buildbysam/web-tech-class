@@ -54,8 +54,10 @@ export default async function HomePage() {
           <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-8 max-w-2xl mx-auto mt-12">
             {stats_card_list.map((item, idx) => (
               <div key={idx} className="card p-2 md:p-4 text-center">
-                <p className="text-2xl md:text-3xl font-bold text-foreground">{item.value}</p>
-                <p className="text-sm text-muted-foreground mt-1 capitalize">{item.title}</p>
+                <div className="h-full flex-center flex-col">
+                  <p className="text-2xl md:text-3xl font-bold text-foreground">{item.value}</p>
+                  <p className="text-sm text-muted-foreground mt-1 capitalize">{item.title}</p>
+                </div>
               </div>
             ))}
           </div>

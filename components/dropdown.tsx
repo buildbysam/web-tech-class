@@ -1,5 +1,6 @@
 "use client";
 
+import { cx } from "@/lib/utils";
 import { Check, ChevronDown } from "lucide-react";
 import { useState } from "react";
 
@@ -37,8 +38,12 @@ export default function Dropdown({ dropdown_items, selected_item, handleChange }
             const active = item.value === selectedItem.value;
             return (
               <button
-                className="px-2.5 py-1.5 w-full text-sm text-left hover:bg-accent hover:text-accent-foreground rounded-md flex-between"
+                className={cx(
+                  "px-2.5 py-1.5 w-full text-sm text-left hover:bg-accent hover:text-accent-foreground rounded-md flex-between",
+                  !active ? "cursor-pointer" : ""
+                )}
                 key={item.value}
+                disabled={active}
                 onClick={() => {
                   if (active) return;
                   toggleDropdown();

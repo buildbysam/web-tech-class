@@ -97,7 +97,7 @@ export default function AboutPage() {
         </section>
 
         <InfoSectionCard icon="Sparkles" title="Skill Demostrated">
-          <div className="flex flex-wrap gap-x-2 gap-y-2.5">
+          <div className="flex-center flex-wrap gap-x-2 gap-y-2.5">
             {skills_list.map((skill) => (
               <span key={skill} className="py-1 px-2.5 rounded-md text-sm bg-badge text-badge-foreground">
                 {skill}
