@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/button";
+import { cx } from "@/lib/utils";
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -30,7 +31,13 @@ export default function CopyContentButton({ content, className = "" }: Props) {
   };
 
   return (
-    <Button onClick={handleClick} title="Copy Content" variant="outline" className={className}>
+    <Button
+      disabled={copied}
+      onClick={handleClick}
+      title="Copy Content"
+      variant="outline"
+      className={cx("cursor-pointer!", className)}
+    >
       {copied ? (
         <span className="text-green-500 flex-center">
           <Check className="size-4 mr-2" />

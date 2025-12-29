@@ -1,13 +1,13 @@
 "use client";
 
+import { ubuntu } from "@/lib/fonts";
 import { cx } from "@/lib/utils";
 import { CodeXml, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Button from "./button";
 import ThemeToggleBtn from "./theme-toggle-btn";
-import { ubuntu } from "@/lib/fonts";
 
 const nav_links = [
   { title: "Home", href: "/" },
@@ -39,7 +39,9 @@ export default function Navbar() {
                       isActive ? "text-foreground" : "text-muted-foreground"
                     )}
                   >
-                    <Link href={link.href}>{link.title}</Link>
+                    <Link href={link.href} title={`Visit ${link.title} Page`}>
+                      {link.title}
+                    </Link>
                   </li>
                 );
               })}
@@ -65,7 +67,12 @@ export default function Navbar() {
                     isActive ? "text-foreground bg-primary/25" : "text-muted-foreground"
                   )}
                 >
-                  <Link href={link.href} className="block py-2.5 px-3.5" onClick={() => setShowMobileNavbar(false)}>
+                  <Link
+                    href={link.href}
+                    className="block py-2.5 px-3.5"
+                    onClick={() => setShowMobileNavbar(false)}
+                    title={`Visit ${link.title} Page`}
+                  >
                     {link.title}
                   </Link>
                 </li>
