@@ -9,7 +9,7 @@ interface Props {
 
 export default function InfoSectionCard({ title, icon, children }: Props) {
   return (
-    <section className="card p-6">
+    <section className="animate__animated animate__fadeIn card p-6">
       <div className="flex items-center gap-3 mb-4">
         <div className="p-2.5 rounded-lg bg-muted">
           <Icon name={icon} className="size-5 text-primary" />

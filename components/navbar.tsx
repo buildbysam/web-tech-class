@@ -36,7 +36,7 @@ export default function Navbar() {
                     key={idx}
                     className={cx(
                       "hover:text-foreground text-sm lg:text-[15px] font-medium",
-                      isActive ? "text-foreground" : "text-muted-foreground"
+                      isActive ? "text-foreground" : "text-muted-foreground hover:-translate-y-px"
                     )}
                   >
                     <Link href={link.href} title={`Visit ${link.title} Page`}>

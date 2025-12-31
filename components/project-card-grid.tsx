@@ -13,11 +13,12 @@ interface Props {
 export default function ProjectCardGrid({ projects }: Props) {
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto max-w-md sm:max-w-full">
-      {projects.map(async (project) => (
+      {projects.map((project, idx) => (
         <Link
           key={project.slug}
           href={`/projects/${project.slug}`}
-          className="group card block overflow-hidden shadow-xs hover:shadow-sm"
+          style={{ animationDelay: `${idx}00ms` }}
+          className="animate__animated animate__fadeIn hover:-translate-y-1 group card block overflow-hidden shadow-xs hover:shadow-sm"
         >
           <div className="aspect-video overflow-hidden bg-muted">
             <ProjectThumbnail src={project.thumbnail.src} alt={project.thumbnail.alt} />

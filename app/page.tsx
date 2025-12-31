@@ -41,7 +41,7 @@ export default async function HomePage() {
       <section className="border-b border-border">
         <div className="section-container text-center">
           <div className="space-y-5">
-            <div className="text-accent-foreground bg-accent inline-flex justify-center items-center gap-1.5 py-2 px-3.5 text-sm rounded-full">
+            <div className="animate__animated animate__fadeIn text-accent-foreground bg-accent inline-flex justify-center items-center gap-1.5 py-2 px-3.5 text-sm rounded-full">
               <CodeXml className="size-5" />
               <p className={`${ubuntu.className} capitalize`}>web technology class</p>
             </div>
@@ -53,7 +53,11 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-8 max-w-2xl mx-auto mt-12">
             {stats_card_list.map((item, idx) => (
-              <div key={idx} className="card p-2 md:p-4 text-center">
+              <div
+                key={idx}
+                style={{ animationDelay: `${idx}00ms` }}
+                className="animate__animated animate__fadeIn card p-2 md:p-4 text-center"
+              >
                 <div className="h-full flex-center flex-col">
                   <p className="text-2xl md:text-3xl font-bold text-foreground">{item.value}</p>
                   <p className="text-sm text-muted-foreground mt-1 capitalize">{item.title}</p>
@@ -69,7 +73,8 @@ export default async function HomePage() {
           {features_card_list.map((item, idx) => (
             <div
               key={idx}
-              className="card p-4 gap-2 lg:gap-4 flex items-start flex-col lg:flex-row mx-auto w-full max-w-md sm:max-w-full"
+              style={{ animationDelay: `${idx}00ms` }}
+              className="animate__animated animate__fadeIn card p-4 gap-2 lg:gap-4 flex items-start flex-col lg:flex-row mx-auto w-full max-w-md sm:max-w-full"
             >
               <div className="bg-accent rounded-lg p-2.5">
                 <Icon name={item.icon as keyof typeof icons} className="text-accent-foreground size-5" />

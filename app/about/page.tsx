@@ -84,8 +84,12 @@ export default function AboutPage() {
         <section>
           <h2 className="section-title mb-4">Key Features</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {key_features_list.map((item) => (
-              <div key={item.title} className="p-5 card hover:border-primary/20">
+            {key_features_list.map((item, idx) => (
+              <div
+                key={item.title}
+                style={{ animationDelay: `${idx}00ms` }}
+                className="animate__animated animate__fadeIn p-5 card hover:border-primary/20"
+              >
                 <div className="p-2.5 rounded-lg bg-muted w-fit mb-3">
                   <Icon name={item.icon as keyof typeof icons} className="size-5 text-primary" />
                 </div>
@@ -118,7 +122,7 @@ export default function AboutPage() {
         </InfoSectionCard>
       </div>
 
-      <div className="p-4 rounded-xl bg-muted/50 border border-border text-center">
+      <div className="animate__animated animate__fadeIn p-4 rounded-xl bg-muted/50 border border-border text-center">
         <p className="text-sm text-muted-foreground">
           This is an academic project showcase created for educational purposes. All code is original work completed as
           part of course assignments.
