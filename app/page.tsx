@@ -88,18 +88,20 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section-container">
-        <div className="flex-between mb-10">
-          <h2 className={`${ubuntu.className} section-title`}>Featured Projects</h2>
-          <p className="text-muted-foreground text-sm md:text-base">
-            {totalProjectsCount > projects.length
-              ? `${projects.length} of ${totalProjectsCount}`
-              : totalProjectsCount.toString()}{" "}
-            Projects
-          </p>
-        </div>
-        <ProjectCardGrid projects={projects} />
-      </section>
+      {projects.length > 0 ? (
+        <section className="section-container">
+          <div className="flex-between mb-10">
+            <h2 className={`${ubuntu.className} section-title`}>Featured Projects</h2>
+            <p className="text-muted-foreground text-sm md:text-base">
+              {totalProjectsCount > projects.length
+                ? `${projects.length} of ${totalProjectsCount}`
+                : totalProjectsCount.toString()}{" "}
+              Projects
+            </p>
+          </div>
+          <ProjectCardGrid projects={projects} />
+        </section>
+      ) : null}
     </main>
   );
 }

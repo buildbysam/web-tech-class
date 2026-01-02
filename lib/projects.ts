@@ -10,16 +10,18 @@ import {
 } from "@/types/projects.types";
 import matter from "gray-matter";
 import { notFound } from "next/navigation";
-import fs from "node:fs";
-import path from "node:path";
+import fs from "fs";
+import path from "path";
 import { isImageFile, slugify } from "./utils";
 
 const PROJECTS_ROOT = path.join(process.cwd(), "projects");
 let PROJECT_REGISTRY = new Map<string, IRegistryItem>();
-const projectsDir = fs
-  .readdirSync(PROJECTS_ROOT, { withFileTypes: true })
-  .filter((dirent) => dirent.isDirectory())
-  .map((dirent) => dirent.name);
+const projectsDir = fs.existsSync(PROJECTS_ROOT)
+  ? fs
+      .readdirSync(PROJECTS_ROOT, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => dirent.name)
+  : [];
 
 export class TreeNode {
   public children: TreeNode[] = [];

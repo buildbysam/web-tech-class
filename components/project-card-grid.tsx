@@ -11,6 +11,8 @@ interface Props {
 }
 
 export default function ProjectCardGrid({ projects }: Props) {
+  if (!projects.length) return;
+
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto max-w-md sm:max-w-full">
       {projects.map((project, idx) => (

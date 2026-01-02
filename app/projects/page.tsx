@@ -39,11 +39,19 @@ export default async function ProjectsPage({
           and documentation.
         </p>
       </div>
-      <FilterProjects activeTech={filters.tech} activeSort={filters.sort} allTech={["All", ...allTech]} />
-      <ProjectCardGrid projects={projects} />
-      <div className="text-center mt-8 text-sm text-muted-foreground">
-        Showing {projects.length} of {totalProjects} projects
-      </div>
+      {totalProjects > 0 ? (
+        <>
+          <FilterProjects activeTech={filters.tech} activeSort={filters.sort} allTech={["All", ...allTech]} />
+          <ProjectCardGrid projects={projects} />
+          <div className="text-center mt-8 text-sm text-muted-foreground">
+            Showing {projects.length} of {totalProjects} projects
+          </div>
+        </>
+      ) : (
+        <p className="text-destructive text-lg text-center mt-15">
+          No projects found. Create a project to get started!
+        </p>
+      )}
     </main>
   );
 }
